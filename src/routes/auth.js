@@ -4,11 +4,11 @@ const router = express.Router();
 import AuthController from '../controllers/authController.js';
 import { verifyToken } from '../middlewares/auth.js';
 import { handleValidationErrors } from '../middlewares/errorHandler.js';
-import { validateLogin } from '../middlewares/validation.js';
+import validations from '../middlewares/validation.js';
 
 // POST /api/auth/login - Iniciar sesión
 router.post('/login',
-  validateLogin,
+  validations.validateLogin,
   handleValidationErrors,
   AuthController.login
 );

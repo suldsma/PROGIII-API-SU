@@ -170,6 +170,115 @@ class SwaggerConfig {
           message: { type: 'string', example: 'Operación realizada exitosamente' },
           data: {}
         }
+      },
+      Salon: {
+        type: 'object',
+        properties: {
+          salon_id: { type: 'integer', description: 'ID único del salón', example: 1, readOnly: true },
+          titulo: { type: 'string', description: 'Título del salón', maxLength: 255, minLength: 3, example: 'Salón Principal' },
+          direccion: { type: 'string', description: 'Dirección del salón', maxLength: 255, minLength: 5, example: 'San Lorenzo 1000' },
+          latitud: { type: 'number', format: 'decimal', description: 'Latitud GPS', minimum: -90, maximum: 90, example: -32.3868, nullable: true },
+          longitud: { type: 'number', format: 'decimal', description: 'Longitud GPS', minimum: -180, maximum: 180, example: -58.0039, nullable: true },
+          capacidad: { type: 'integer', description: 'Capacidad máxima de personas', minimum: 1, example: 200 },
+          importe: { type: 'number', format: 'decimal', description: 'Importe de alquiler en pesos', minimum: 0, maximum: 9999999.99, example: 95000.00 },
+          activo: { type: 'boolean', description: 'Estado del salón', example: true, readOnly: true },
+          creado: { type: 'string', format: 'date-time', example: '2025-08-19T21:51:22.000Z', readOnly: true },
+          modificado: { type: 'string', format: 'date-time', example: '2025-08-19T21:51:22.000Z', readOnly: true }
+        },
+        required: ['salon_id', 'titulo', 'direccion', 'capacidad', 'importe', 'activo']
+      },
+
+      SalonInput: {
+        type: 'object',
+        required: ['titulo', 'direccion', 'capacidad', 'importe'],
+        properties: {
+          titulo: { type: 'string', maxLength: 255, minLength: 3, example: 'Salón de Eventos Central' },
+          direccion: { type: 'string', maxLength: 255, minLength: 5, example: 'Av. Principal 1234' },
+          latitud: { type: 'number', format: 'decimal', minimum: -90, maximum: 90, example: -32.3868 },
+          longitud: { type: 'number', format: 'decimal', minimum: -180, maximum: 180, example: -58.0039 },
+          capacidad: { type: 'integer', minimum: 1, example: 200 },
+          importe: { type: 'number', format: 'decimal', minimum: 0, maximum: 9999999.99, example: 95000.00 }
+        }
+      },
+
+      Reserva: {
+        type: 'object',
+        properties: {
+          reserva_id: { type: 'integer', description: 'ID único de la reserva', example: 1, readOnly: true },
+          fecha_reserva: { type: 'string', format: 'date', description: 'Fecha de la reserva', example: '2025-10-08' },
+          salon_id: { type: 'integer', description: 'ID del salón reservado', example: 1 },
+          usuario_id: { type: 'integer', description: 'ID del usuario que reservó', example: 1 },
+          turno_id: { type: 'integer', description: 'ID del turno reservado', example: 1 },
+          foto_cumpleaniero: { type: 'string', format: 'uri', description: 'URL de la foto del cumpleañero', example: 'https://ejemplo.com/foto.jpg', nullable: true },
+          tematica: { type: 'string', description: 'Temática de la fiesta', maxLength: 255, example: 'Plim plim', nullable: true },
+          importe_salon: { type: 'number', format: 'decimal', description: 'Importe del salón', example: 95000.00 },
+          importe_total: { type: 'number', format: 'decimal', description: 'Importe total incluyendo servicios', example: 200000.00 },
+          activo: { type: 'boolean', description: 'Estado de la reserva', example: true, readOnly: true },
+          creado: { type: 'string', format: 'date-time', example: '2025-08-19T22:02:33.000Z', readOnly: true },
+          modificado: { type: 'string', format: 'date-time', example: '2025-08-19T22:02:33.000Z', readOnly: true },
+          servicios_adicionales: {
+            type: 'array',
+            description: 'Lista de servicios adicionales contratados',
+            items: {
+              type: 'object',
+              properties: {
+                servicio_id: { type: 'integer', example: 1 },
+                descripcion: { type: 'string', example: 'Sonido' },
+                importe: { type: 'number', example: 15000.00 },
+                importe_adicional: { type: 'number', example: 50000.00 }
+              }
+            }
+          }
+        },
+        required: ['reserva_id', 'fecha_reserva', 'salon_id', 'usuario_id', 'turno_id', 'importe_salon', 'importe_total', 'activo']
+      },
+
+      ReservaInput: {
+        type: 'object',
+        required: ['fecha_reserva', 'salon_id', 'turno_id'],
+        properties: {
+          fecha_reserva: { type: 'string', format: 'date', example: '2025-10-15' },
+          salon_id: { type: 'integer', minimum: 1, example: 1 },
+          turno_id: { type: 'integer', minimum: 1, example: 1 },
+          foto_cumpleaniero: { type: 'string', format: 'uri', example: 'https://ejemplo.com/foto.jpg' },
+          tematica: { type: 'string', maxLength: 255, example: 'Superhéroes' },
+          servicios_adicionales: {
+            type: 'array',
+            description: 'IDs de servicios adicionales a contratar',
+            items: { type: 'integer', minimum: 1 },
+            example: [1, 2, 3]
+          }
+        }
+      },
+
+      ReservaUpdate: {
+        type: 'object',
+        properties: {
+          fecha_reserva: { type: 'string', format: 'date', example: '2025-10-15' },
+          salon_id: { type: 'integer', minimum: 1, example: 1 },
+          turno_id: { type: 'integer', minimum: 1, example: 1 },
+          foto_cumpleaniero: { type: 'string', format: 'uri', example: 'https://ejemplo.com/foto.jpg' },
+          tematica: { type: 'string', maxLength: 255, example: 'Superhéroes' },
+          servicios_adicionales: {
+            type: 'array',
+            items: { type: 'integer', minimum: 1 },
+            example: [1, 2]
+          }
+        }
+      },
+
+      Turno: {
+        type: 'object',
+        properties: {
+          turno_id: { type: 'integer', description: 'ID único del turno', example: 1, readOnly: true },
+          orden: { type: 'integer', description: 'Orden del turno', example: 1 },
+          hora_desde: { type: 'string', format: 'time', description: 'Hora de inicio', example: '12:00:00' },
+          hora_hasta: { type: 'string', format: 'time', description: 'Hora de fin', example: '14:00:00' },
+          activo: { type: 'boolean', description: 'Estado del turno', example: true, readOnly: true },
+          creado: { type: 'string', format: 'date-time', example: '2025-08-19T21:44:19.000Z', readOnly: true },
+          modificado: { type: 'string', format: 'date-time', example: '2025-08-19T21:44:19.000Z', readOnly: true }
+        },
+        required: ['turno_id', 'orden', 'hora_desde', 'hora_hasta', 'activo']
       }
     };
   }
