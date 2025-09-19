@@ -4,7 +4,6 @@ const router = express.Router();
 import ReservasController from '../controllers/reservasController.js';
 import { verifyToken, requireRole, ROLES } from '../middlewares/auth.js';
 import { handleValidationErrors } from '../middlewares/errorHandler.js';
-// Importación corregida para el objeto completo de validaciones
 import validations from '../middlewares/validation.js';
 
 // Middleware de autenticación para todas las rutas

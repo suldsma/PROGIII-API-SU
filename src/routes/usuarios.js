@@ -4,7 +4,6 @@ const router = express.Router();
 import UsuariosController from '../controllers/usuariosController.js';
 import { verifyToken, requireRole, ROLES } from '../middlewares/auth.js';
 import { handleValidationErrors } from '../middlewares/errorHandler.js';
-// Importación corregida: importa el objeto completo de validaciones
 import validations from '../middlewares/validation.js';
 
 // Rutas accesibles sin autenticación

@@ -8,21 +8,22 @@ import validations from '../middlewares/validation.js';
 
 // POST /api/auth/login - Iniciar sesión
 router.post('/login',
-  validations.validateLogin,
-  handleValidationErrors,
-  AuthController.login
+    // CORRECCIÓN: Se eliminan los '...'
+    validations.validateLogin,
+    handleValidationErrors,
+    AuthController.login
 );
 
 // GET /api/auth/me - Obtiene perfil del usuario actual (requiere autenticación)
 router.get('/me',
-  verifyToken,
-  AuthController.getProfile
+    verifyToken,
+    AuthController.getProfile
 );
 
 // POST /api/auth/refresh - Renovar token (requiere autenticación)
 router.post('/refresh',
-  verifyToken,
-  AuthController.refreshToken
+    verifyToken,
+    AuthController.refreshToken
 );
 
 export default router;
